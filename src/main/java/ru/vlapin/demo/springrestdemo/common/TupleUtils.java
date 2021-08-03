@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 @UtilityClass
 public class TupleUtils {
 
-  public <@NotNull T1, @NotNull T2> @NotNull Tuple2<T1, T2> tupleWith(@NotNull T1 self,
-                                                                      @NotNull T2 t2) {
+  public <T1, @NotNull T2> @NotNull Tuple2<T1, T2> tupleWith(@NotNull T1 self,
+                                                             @NotNull T2 t2) {
     return Tuple.of(self, t2);
   }
 

@@ -19,6 +19,7 @@ import lombok.SneakyThrows;
 import lombok.experimental.ExtensionMethod;
 import lombok.experimental.UtilityClass;
 import lombok.val;
+import org.jetbrains.annotations.NotNull;
 
 @UtilityClass
 @ExtensionMethod(FunctionUtils.class)
@@ -45,18 +46,18 @@ public class ReflectionUtils {
    * @param packageName The base package
    * @return The classes
    */
-  public Stream<Class<?>> getClasses(String packageName) {
+  public Stream<Class<?>> getClasses(@NotNull String packageName) {
     return CheckedFunction2.of(ClassLoader::getResources).unchecked()
-               .reversed()
-               .apply(packageName.replace('.', '/'))
-               .andThen(Enumeration::asIterator)
-               .andThen(urlIterator -> spliteratorUnknownSize(urlIterator, ORDERED))
-               .andThen(urlSpliterator -> stream(urlSpliterator, false))
-               .compose(Thread::getContextClassLoader)
-               .apply(Thread.currentThread())
-               .map(URL::getFile)
-               .map(File::new)
-               .flatMap(directory -> findClasses(directory, packageName));
+        .reversed()
+        .apply(packageName.replace('.', '/'))
+        .andThen(Enumeration::asIterator)
+        .andThen(urlIterator -> spliteratorUnknownSize(urlIterator, ORDERED))
+        .andThen(urlSpliterator -> stream(urlSpliterator, false))
+        .compose(Thread::getContextClassLoader)
+        .apply(Thread.currentThread())
+        .map(URL::getFile)
+        .map(File::new)
+        .flatMap(directory -> findClasses(directory, packageName));
   }
 
   /**
@@ -74,17 +75,17 @@ public class ReflectionUtils {
             .apply(packageName);
 
     return Optional.of(directory)
-               .filter(File::exists)
-               .map(File::listFiles)
-               .stream()
-               .flatMap(Arrays::stream)
-               .flatMap(lookForClasses);
+        .filter(File::exists)
+        .map(File::listFiles)
+        .stream()
+        .flatMap(Arrays::stream)
+        .flatMap(lookForClasses);
   }
 
-  private Stream<Class<?>> lookForClasses(String packageName, File file) {
+  private Stream<Class<?>> lookForClasses(String packageName, @NotNull File file) {
     val fileName = file.getName();
     return (file.isDirectory() && fileName.contains(".") ?
                 GET_CLASS_FROM_DIR.apply(file) : GET_CLASS_FROM_FILE)
-               .apply(packageName, fileName);
+        .apply(packageName, fileName);
   }
 }

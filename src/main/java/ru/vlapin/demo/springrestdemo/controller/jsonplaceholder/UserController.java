@@ -2,7 +2,6 @@ package ru.vlapin.demo.springrestdemo.controller.jsonplaceholder;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,14 +19,11 @@ public class UserController {
 
   @NotNull
   @GetMapping
-//  @Contract(pure = true)
   public List<User> all() {
     return userService.all();
   }
 
-//  @NotNull
   @GetMapping("{id}")
-//  @Contract(pure = true)
   public User byId(@PathVariable @NotNull Long id) {
     return userService.findById(id);
   }

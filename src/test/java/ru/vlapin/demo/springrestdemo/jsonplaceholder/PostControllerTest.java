@@ -4,13 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.val;
-import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.vlapin.demo.springrestdemo.model.jsonplaceholder.Post;
 import ru.vlapin.demo.springrestdemo.service.jsonplaceholder.PostService;
 
 @SpringBootTest

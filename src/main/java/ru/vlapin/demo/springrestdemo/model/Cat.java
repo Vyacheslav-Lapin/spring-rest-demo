@@ -24,6 +24,7 @@ import org.hibernate.Hibernate;
 @ToString
 @Setter(PRIVATE)
 @NoArgsConstructor(access = PROTECTED)
+//@NoArgsConstructor(access = PRIVATE)
 @RequiredArgsConstructor//(access = PRIVATE)
 public class Cat {
 

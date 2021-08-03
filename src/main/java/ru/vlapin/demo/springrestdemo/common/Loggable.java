@@ -1,5 +1,6 @@
 package ru.vlapin.demo.springrestdemo.common;
 
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -15,6 +16,7 @@ import lombok.val;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Aspect annotation.
@@ -22,10 +24,10 @@ import org.aspectj.lang.annotation.Aspect;
  * @see LoggableAspect#aroundAdvice(ProceedingJoinPoint)
  */
 @Retention(RUNTIME)
-@Target({TYPE, METHOD})
+@Target({TYPE, METHOD, FIELD})
 public @interface Loggable {
   enum LogLevel {
-    ERROR, WARN, INFO, DEBUG, TRACE;
+    ERROR, WARN, INFO, DEBUG, TRACE
   }
 
   LogLevel value() default DEBUG;
@@ -38,7 +40,7 @@ final class LoggableAspect {
 
   @SneakyThrows
   @Around("@annotation(Loggable) || within(@Loggable *)")
-  Object aroundAdvice(ProceedingJoinPoint pjp) {
+  Object aroundAdvice(@NotNull ProceedingJoinPoint pjp) {
     val methodName = pjp.getSignature().getName();
     val args = pjp.getArgs();
     val logMethod = getLogMethod(pjp);
@@ -52,7 +54,7 @@ final class LoggableAspect {
     return result;
   }
 
-  private BiConsumer<String, Object[]> getLogMethod(ProceedingJoinPoint pjp) {
+  private BiConsumer<String, Object[]> getLogMethod(@NotNull ProceedingJoinPoint pjp) {
     return switch (pjp.getAnnotation(Loggable.class).value()) {
       case INFO -> log::info;
       case DEBUG -> log::debug;

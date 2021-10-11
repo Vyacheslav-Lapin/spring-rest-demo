@@ -7,6 +7,11 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+public interface AnnotationBasedSetterPropertiesPlaceholderExample {
+  String getHost();
+  Integer getPort();
+}
+
 /**
 * Features:
 * - default values (Convention over Configuration)
@@ -21,7 +26,8 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @Validated
 @ConfigurationProperties("my-properties")
-public class AnnotationBasedSetterPropertiesPlaceholderExample {
+class AnnotationBasedSetterPropertiesPlaceholderExampleImpl
+    implements AnnotationBasedSetterPropertiesPlaceholderExample {
 
   /**
    * My hostname

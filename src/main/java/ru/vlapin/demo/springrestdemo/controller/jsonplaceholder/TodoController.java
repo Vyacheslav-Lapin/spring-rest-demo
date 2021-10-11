@@ -23,7 +23,7 @@ public class TodoController {
     return todoService.all();
   }
 
-  @GetMapping("{id}")
+  @GetMapping(path = "{id}", produces = "application/json")
   public Todo todo(@PathVariable @NotNull Long id) {
     return todoService.findById(id);
   }
